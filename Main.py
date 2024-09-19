@@ -1,34 +1,47 @@
-from logging import root
-from Hala import FortuneList
 import random
 from tkinter import *
+from tkinter import ttk
+from Hala import FortuneList  # Assuming this is correctly imported from your module
 
+# Create the main application window
 window = Tk()
-window.geometry("900x500")
+window.geometry("1000x600")
 window.title('FortuNETeller')
 
-# # Define image
-# bg = PhotoImage(file="C:../Coding Tamer/FortuNETeller/fortune.png")
+# Load and set the background image
+bg = PhotoImage(file="../FortuNETeller/fortune.png")
+myL = Label(window, image=bg)
+myL.place(x=0, y=0, relwidth=1, relheight=1)
 
-# # Create a canvas
-# my_canvas = Canvas(window, width=200, height=100)
-# my_canvas.pack(fill="both", expand=True)
-# my_canvas.create_image(0,0, image=bg, anchor="nw")
+# Title label
+myT = Label(window, text="FortuNETeller", font=("Helvetica", 24, "bold"), fg="#ffcc00", bg="#333333")
+myT.pack(pady=20)
 
-# Label(text="FortuNETeller",font=("Helvetica", 14)).pack()
-# Label(text="Karakolda komser senin haberi çok önce aldığını söyledi o yüzden Karakolda komser senin haberi çok önce aldığını söyledi o yüzdenKarakolda komser senin haberi çok önce aldığını söyledi o yüzdenKarakolda komser senin haberi çok önce aldığını söyledi o yüzdenKarakolda komser senin haberi çok önce aldığını söyledi o yüzden").pack()
+# Frame to hold the fortune text and buttons
+frame = Frame(window, bg="#333333")
+frame.pack(pady=20)
 
-bg = PhotoImage(file = "C:../Coding Tamer/FortuNETeller/fortune.png")
+# Label to display the fortune text
+fortune_label = Label(frame, text="Click the button to see your fortune!", font=("Arial", 16), wraplength=600, bg="#ffffff", fg="#333333", padx=20, pady=20, borderwidth=2, relief="solid")
+fortune_label.grid(row=0, column=0, columnspan=2, pady=10, padx=10)
 
-myL = Label(image=bg)
-myL.place(x=0,y=0,relwidth=1,relheight=1)
+# Function to update the fortune text
+def tell_fortune():
+    random_fortune = random.choice(FortuneList)
+    fortune_label.config(text=random_fortune)
 
-myT = Label(text="FortuNETeller",font=("Helvetica", 18), fg="black")
-myT.pack(pady=50)
+# Styling for buttons
+style = ttk.Style()
+style.configure('TButton', font=('Helvetica', 14), padding=10)
+style.map('TButton', foreground=[('active', '#ffcc00')], background=[('active', '#333333')])
 
-# Random Function
-Label(text=random.choice(FortuneList),font=("Arial", 14)).pack()
+# Button to get a new fortune with cursor change on hover
+fortune_button = ttk.Button(frame, text='Düğmeye Bas Ve Kaderini Öğren', command=tell_fortune, style='TButton', cursor="hand2")
+fortune_button.grid(row=1, column=0, padx=20, pady=20)
 
-Button(text='Exit',command=lambda: window.quit()).pack(ipadx=5,ipady=5,expand=True)
+# Exit button with cursor change on hover
+exit_button = ttk.Button(frame, text='Çıkış', command=window.quit, style='TButton', cursor="hand2")
+exit_button.grid(row=1, column=1, padx=20, pady=20)
 
+# Start the main loop
 window.mainloop()
